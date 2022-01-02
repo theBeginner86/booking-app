@@ -9,7 +9,7 @@ func main(){
 	conferenceName := "Go Conf"
 	const totalTickets = 200
 	remainingTickets := totalTickets
-	bookings := make([]map[string]string, 0)
+	bookings := make([]helper.UserDetails, 0)
 
 	for {
 

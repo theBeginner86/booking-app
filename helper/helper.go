@@ -2,20 +2,26 @@ package helper
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 )
+
+type UserDetails struct {
+	firstName string
+	lastName string
+	email string
+	userTickets int
+}
 
 func GreetUser(conferenceName string, totalTickets int, remainingTickets int) {
 	fmt.Printf("Welcome to %v, booking app :))\n", conferenceName)
 	fmt.Printf("Total number of tickets: %v\nRemaining Tickets: %v\n", totalTickets, remainingTickets)
 }
 
-func GetFirstNames(bookings []map[string]string) ([]string){
+func GetFirstNames(bookings []UserDetails) ([]string){
 	firstNames := []string{}
 
 	for _, booking := range bookings {
-		firstNames = append(firstNames, booking["firstName"])
+		firstNames = append(firstNames, booking.firstName)
 	}
 
 	return firstNames
@@ -50,14 +56,16 @@ func Input() (string, string, string, int){
 	return firstName, lastName, email, userTickets
 }
 
-func BookingsLogic(bookings []map[string]string, firstName string, lastName string, email string, remainingTickets int, userTickets int) ([]map[string]string, int){
-	userDetails := make(map[string]string)
+func BookingsLogic(bookings []UserDetails, firstName string, lastName string, email string, remainingTickets int, userTickets int) ([]UserDetails, int){
 
-	userDetails["firstName"] = firstName
-	userDetails["lastName"] = lastName
-	userDetails["email"] = email
-	userDetails["userTickets"] = strconv.FormatInt(int64(userTickets), 10)
-	bookings = append(bookings, userDetails)
+	var userData = UserDetails {
+		firstName: firstName,
+		lastName: lastName,
+		email: email,
+		userTickets: userTickets,
+	}
+
+	bookings = append(bookings, userData)
 	remainingTickets = remainingTickets - userTickets
 
 	fmt.Printf("Thank you, %v %v for bookings %v tickets. A confirmation mail would be sent to %v\n", firstName, lastName, userTickets, email)
