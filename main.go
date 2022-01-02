@@ -15,32 +15,15 @@ func main(){
 
 		greetUser(conferenceName, totalTickets, remainingTickets)
 
-		var firstName string
-		var lastName string
-		var email string
-		var userTickets int
-
-		fmt.Println("Enter first name: ")
-		fmt.Scan(&firstName)
-
-		fmt.Println("Enter last name: ")
-		fmt.Scan(&lastName)
-
-		fmt.Println("Enter email: ")
-		fmt.Scan(&email)
-
-		fmt.Println("Enter no of tickets: ")
-		fmt.Scan(&userTickets)
+		firstName, lastName, email, userTickets := input()
 
 		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
-			bookings = append(bookings, firstName + " " + lastName)
-			remainingTickets = remainingTickets - userTickets
+			
+			bookings, remainingTickets = bookingsLogic(bookings, firstName, lastName, remainingTickets, userTickets)
 
 			firstNames := getFirstNames(bookings)
-
-			fmt.Printf("User %v %v, booked %v tickets, remaining tickets: %v\n", firstName, lastName, userTickets, remainingTickets)
 			fmt.Printf("Total bookings %v\nbooking list:%v\n", len(firstNames), firstNames)	
 
 			if remainingTickets == 0 {
@@ -85,5 +68,35 @@ func validateUserInput(firstName string, lastName string, email string, userTick
 	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
 
 	return isValidName, isValidEmail, isValidTicketNumber
+}
+
+func input() (string, string, string, int){
+	var firstName string
+	var lastName string
+	var email string
+	var userTickets int
+
+	fmt.Println("Enter first name: ")
+	fmt.Scan(&firstName)
+
+	fmt.Println("Enter last name: ")
+	fmt.Scan(&lastName)
+
+	fmt.Println("Enter email: ")
+	fmt.Scan(&email)
+
+	fmt.Println("Enter no of tickets: ")
+	fmt.Scan(&userTickets)
+
+	return firstName, lastName, email, userTickets
+}
+
+func bookingsLogic(bookings []string, firstName string, lastName string, remainingTickets int, userTickets int) ([]string, int){
+	bookings = append(bookings, firstName + " " + lastName)
+	remainingTickets = remainingTickets - userTickets
+
+	fmt.Printf("User %v %v, booked %v tickets, remaining tickets: %v\n", firstName, lastName, userTickets, remainingTickets)
+
+	return bookings, remainingTickets
 }
 
