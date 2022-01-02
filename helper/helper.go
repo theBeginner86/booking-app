@@ -62,5 +62,15 @@ func BookingsLogic(bookings []map[string]string, firstName string, lastName stri
 
 	fmt.Printf("Thank you, %v %v for bookings %v tickets. A confirmation mail would be sent to %v\n", firstName, lastName, userTickets, email)
 
+	EmailTicket(userDetails)
+
 	return bookings, remainingTickets
 }
+
+func EmailTicket(userDetails map[string]string){
+	fmt.Println("----------------------------------------")
+	ticket := fmt.Sprintf("Dear %v %v,\n You ordered %v tickets", userDetails["firstName"], userDetails["lastName"], userDetails["userTickets"])
+	fmt.Printf("Emailing Ticket to %v..........\n##############################\n%v\n##############################\n", userDetails["email"], ticket)
+	fmt.Println("----------------------------------------")	
+}
+
