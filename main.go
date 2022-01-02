@@ -9,7 +9,7 @@ func main(){
 	conferenceName := "Go Conf"
 	const totalTickets = 200
 	remainingTickets := totalTickets
-	bookings := []string{}
+	bookings := make([]map[string]string, 0)
 
 	for {
 
@@ -21,13 +21,13 @@ func main(){
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			
-			bookings, remainingTickets = helper.BookingsLogic(bookings, firstName, lastName, remainingTickets, userTickets)
+			bookings, remainingTickets = helper.BookingsLogic(bookings, firstName, lastName, email, remainingTickets, userTickets)
 
 			firstNames := helper.GetFirstNames(bookings)
-			fmt.Printf("Total bookings %v\nbooking list:%v\n", len(firstNames), firstNames)	
+			fmt.Printf("\nTotal bookings %v\nbooking list:%v\n\n\n", len(firstNames), bookings)	
 
 			if remainingTickets == 0 {
-				fmt.Println("We are sold out. Come back next year ;]")
+				fmt.Println("We are sold out. Come back next year ;[")
 				break
 			} 
 

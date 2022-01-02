@@ -2,6 +2,7 @@ package helper
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -10,12 +11,11 @@ func GreetUser(conferenceName string, totalTickets int, remainingTickets int) {
 	fmt.Printf("Total number of tickets: %v\nRemaining Tickets: %v\n", totalTickets, remainingTickets)
 }
 
-func GetFirstNames(bookings []string) ([]string){
+func GetFirstNames(bookings []map[string]string) ([]string){
 	firstNames := []string{}
 
-	for _, booking := range(bookings) {
-		nameList := strings.Fields(booking)
-		firstNames = append(firstNames, nameList[0])
+	for _, booking := range bookings {
+		firstNames = append(firstNames, booking["firstName"])
 	}
 
 	return firstNames
@@ -50,11 +50,17 @@ func Input() (string, string, string, int){
 	return firstName, lastName, email, userTickets
 }
 
-func BookingsLogic(bookings []string, firstName string, lastName string, remainingTickets int, userTickets int) ([]string, int){
-	bookings = append(bookings, firstName + " " + lastName)
+func BookingsLogic(bookings []map[string]string, firstName string, lastName string, email string, remainingTickets int, userTickets int) ([]map[string]string, int){
+	userDetails := make(map[string]string)
+
+	userDetails["firstName"] = firstName
+	userDetails["lastName"] = lastName
+	userDetails["email"] = email
+	userDetails["userTickets"] = strconv.FormatInt(int64(userTickets), 10)
+	bookings = append(bookings, userDetails)
 	remainingTickets = remainingTickets - userTickets
 
-	fmt.Printf("User %v %v, booked %v tickets, remaining tickets: %v\n", firstName, lastName, userTickets, remainingTickets)
+	fmt.Printf("Thank you, %v %v for bookings %v tickets. A confirmation mail would be sent to %v\n", firstName, lastName, userTickets, email)
 
 	return bookings, remainingTickets
 }
